@@ -25,6 +25,12 @@ var appRouter = require('../router');
 var path = require('path');
 var mongoose = require('mongoose');
 
+var plugin_manager=require("../plugin_manager");
+//插件管理
+plugin_manager.setPluginList([
+    require("../test_modules/toolbox")
+]);
+
 function Server(option) {
     this.opts = option || {};
 }
@@ -93,7 +99,7 @@ Server.prototype.start = function () {
 
     this.use(router(this));
 
-    appRouter(this);
+    appRouter(this,plugin_manager);
 
     this.listen(port);
 

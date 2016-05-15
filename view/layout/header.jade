@@ -9,9 +9,14 @@
                 ul.nav.navbar-nav
                     li(class=current_module == "journal" ? "active" : "")
                         a(href='/journals') 博文
-                ul.nav.navbar-nav
                     li(class=current_module == "diary" ? "active" : "")
                         a(href='/diaries') 日记
+                    li
+                        a(href='/plugin_config/plugins') 插件管理
+                    li
+                        a(href='/toolbox/index') 测试插件
+
+
                 if (current_user == null)
                     ul.nav.navbar-nav.pull-right
                         li
