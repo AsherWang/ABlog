@@ -29,11 +29,9 @@ plugin_config.getConfig = function*(user_id) {
         });
         config = new config_model({user_id: user_id, plugin_list: config_plugin_list});
         config = yield config.save();
-        console.log("重新插入并返回");
         return config;
     }
     else {
-        console.log("直接返回");
         return config;
     }
 };
