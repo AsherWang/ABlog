@@ -7,7 +7,7 @@ var fs = require('fs');
 var mongoose = require('mongoose');
 var _ = require('underscore');
 var Schema = mongoose.Schema;
-var plugin_manager=require("../plugin_manager");
+var plugins=require("../plugins");
 
 var database = {
     models: {}
@@ -41,7 +41,7 @@ database.models.user = mongoose.model("user", UserSchema);
 database.models.comment = mongoose.model('comment', CommentSchema);
 database.models.diary = mongoose.model('diary', DiarySchema);
 
-plugin_manager.model_init(database,mongoose);
+plugins.model_init(database,mongoose);
 module.exports = {
     loader:database
 };

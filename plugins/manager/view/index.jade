@@ -1,0 +1,29 @@
+extends ../../../view/layout/layout
+block content
+    .container(style="padding-top:20px;")
+        table.table.table-bordered
+            thead
+                tr
+                    th.text-center 插件名称
+                    th.text-center 启用状态
+                    th.text-center 操作
+            tbody
+                - for(var index in plugin_list)
+                    - plugin_item=plugin_list[index]
+                        -if(!config.is_must(plugin_item.meta.name))
+                            tr.text-center
+                                td #{plugin_item.meta.display_name}
+                                -status=config.is_enabled(plugin_item.meta.name)
+                                - if(status)
+                                    td 已启用
+                                - else
+                                    td 已禁用
+                                td
+                                    a.btn.btn-default(href="/plugin_manager/plugins/" + plugin_item.meta.name+ '?status='+!status+'&_method=put')
+                                        - if(status)
+                                            span 禁用
+                                        - else
+                                            span 启用
+        .container
+        div #{content}
+        div #{config.user_id}

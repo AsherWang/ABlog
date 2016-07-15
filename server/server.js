@@ -25,11 +25,8 @@ var appRouter = require('../router');
 var path = require('path');
 var mongoose = require('mongoose');
 
-var plugin_manager=require("../plugin_manager");
-//插件管理
-plugin_manager.setPluginList([
-    require("../test_modules/toolbox")
-]);
+var plugins=require("../plugins");
+plugins.plugins_load();
 
 function Server(option) {
     this.opts = option || {};
@@ -54,7 +51,6 @@ Server.prototype.start = function () {
     this.use(flash());
 
     this.context.logger = logger;
-
     onerror(this);
 
     var jade = new koaJade({
@@ -83,7 +79,7 @@ Server.prototype.start = function () {
     this.use(staticCache(path.join(staticDir, 'css')));
     this.use(staticCache(path.join(staticDir, 'fonts')));
     this.use(staticCache(path.join(staticDir, 'bower_components')));
-
+    plugins.static_init(this);
     this.use(function *(next) {
         try{
             yield* next;
@@ -99,7 +95,8 @@ Server.prototype.start = function () {
 
     this.use(router(this));
 
-    appRouter(this,plugin_manager);
+    appRouter(this);
+    plugins.router_init(this);
 
     this.listen(port);
 
